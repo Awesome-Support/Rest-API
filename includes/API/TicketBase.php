@@ -39,9 +39,6 @@ class TicketBase extends WP_REST_Posts_Controller {
 	/**
 	 * Retrieves the query params for the posts collection.
 	 *
-	 * @since 4.7.0
-	 * @access public
-	 *
 	 * @return array Collection parameters.
 	 */
 	public function get_collection_params() {
@@ -52,7 +49,7 @@ class TicketBase extends WP_REST_Posts_Controller {
 			'description'       => __( 'Limit result set to items assigned one or more statuses.', 'awesome-support-api' ),
 			'type'              => 'array',
 			'items'             => array(
-				'enum'          =>  array( 'read', 'unread', 'any' ),
+				'enum'          =>  array( 'read', 'unread' ),
 				'type'          => 'string',
 			),
 			'sanitize_callback' => array( $this, 'sanitize_ticket_param' ),
@@ -118,6 +115,17 @@ class TicketBase extends WP_REST_Posts_Controller {
 		}
 
 		return apply_filters( 'wpas_api_check_ticket_read_permission', $return, $post, $this );
+	}
+
+	/**
+	 * Are we creating a brand new item?
+	 *
+	 * @param \WP_REST_Request $request
+	 *
+	 * @return bool
+	 */
+	public function is_item_new( $request ) {
+		return ( null !== $request['id'] );
 	}
 
 	/**

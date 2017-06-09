@@ -264,7 +264,7 @@ class Tickets extends TicketBase {
 		$additional_fields = $this->get_additional_ticket_fields();
 
 		// if we just created a new ticket, set the slug
-		if ( null === $request['id'] ) {
+		if ( $this->is_item_new( $request ) ) {
 			wpas_set_ticket_slug( $object->ID );
 		}
 
@@ -298,7 +298,7 @@ class Tickets extends TicketBase {
 
 		do_action( 'wpas_api_tickets_update_additional_fields_after', $object, $request );
 
-		if ( null === $request['id'] ) {
+		if ( $this->is_item_new( $request ) ) {
 			do_action( 'wpas_open_ticket_after', $object->ID, get_post( $object->ID, 'ARRAY_A' ) );
 		}
 
@@ -503,7 +503,7 @@ class Tickets extends TicketBase {
 		$return = '';
 
 		// if this is a new ticket, just save the field
-		if ( null === $request['id'] ) {
+		if ( $this->is_item_new( $request ) ) {
 			return update_post_meta( $object->ID, '_wpas_status', $value );
 		}
 
@@ -542,7 +542,7 @@ class Tickets extends TicketBase {
 	public function update_assignee( $value, $object, $field_name, $request ) {
 		$log = true;
 
-		if ( null === $request['id'] ) {
+		if ( $this->is_item_new( $request ) ) {
 			$value = apply_filters( 'wpas_new_ticket_agent_id', $value, $object->ID, $value );
 			$log = false;
 		}
