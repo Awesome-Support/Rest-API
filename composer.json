@@ -1,0 +1,22 @@
+{
+  "name": "awesomesupport/awesome-support-api",
+  "type": "wordpress-plugin",
+  "description": "API add-on for Awesome Support",
+  "keywords": [
+    "support",
+    "api"
+  ],
+  "homepage": "https://getawesomesupport.com/addons/api/",
+  "authors": [
+    {
+      "name": "Tanner Moushey",
+      "email": "tanner@iwitnessdesign.com",
+      "homepage": "https://iwitnessdesign.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "WPAS_API\\": "includes/"
+    }
+  }
+}
