@@ -2,7 +2,7 @@
 /**
  * Plugin Name: Awesome Support API
  * Plugin URI: https://getawesomesupport.com/addons/api/
- * Description: Seamless integration with Avalara's tax calculation and management services.
+ * Description: API add-on for Awesome Support
  * Author: Awesome Support
  * Author URI: https://getawesomesupport.com/
  * Version: 1.0.0
