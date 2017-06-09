@@ -28,6 +28,56 @@ class TicketTaxonomy extends WP_REST_Terms_Controller {
 	}
 
 	/**
+	 * Adds the schema from additional fields to a schema array.
+	 *
+	 * The type of object is inferred from the passed schema.
+	 *
+	 * @param array $schema Schema array.
+	 * @return array Modified Schema array.
+	 */
+	protected function add_additional_fields_schema( $schema ) {
+		if ( 'ticket_priority' === $this->taxonomy ) {
+			$schema['properties']['color'] = array(
+				'descriptions' => __( 'The color for this priority', 'awesome-support-api' ),
+				'type'         => 'string',
+				'context'      => array( 'view', 'embed', 'edit' )
+			);
+		}
+
+		return parent::add_additional_fields_schema( $schema );
+	}
+
+	/**
+	 * Adds the values from additional fields to a data object.
+	 *
+	 * @param array           $object  Data object.
+	 * @param \WP_REST_Request $request Full details about the request.
+	 * @return array Modified data object with additional fields.
+	 */
+	protected function add_additional_fields_to_object( $object, $request ) {
+		if ( 'ticket_priority' === $this->taxonomy ) {
+			$object['color'] = get_term_meta( $object['id'], 'color', true );
+		}
+
+		return parent::add_additional_fields_to_object( $object, $request );
+	}
+
+	/**
+	 * Updates the values of additional fields added to a data object.
+	 *
+	 * @param array           $object  Data Object.
+	 * @param \WP_REST_Request $request Full details about the request.
+	 * @return bool|WP_Error True on success, WP_Error object if a field cannot be updated.
+	 */
+	protected function update_additional_fields_for_object( $object, $request ) {
+		if ( isset( $request['color'] ) ) {
+			update_term_meta( $object->term_id, 'color', $request['color'] );
+		}
+
+		return parent::update_additional_fields_for_object( $object, $request );
+	}
+
+	/**
 	 * reset post type links to use the correct namespace
 	 *
 	 * @since 4.7.0
