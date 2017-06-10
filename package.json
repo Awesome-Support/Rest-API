@@ -7,7 +7,7 @@
   "contributors": "Tanner Moushey",
   "repository": {
     "type": "git",
-    "url": "https://github.com:tannerm/rcp-avatax.git"
+    "url": "https://github.com/Awesome-Support/Rest-API"
   },
   "bugs": {
     "url": "https://skilledcode.com/support/"
@@ -24,8 +24,8 @@
   },
   "pot": {
     "type": "wp-plugin",
-    "textdomain": "rcp-avatax",
-    "src": "rcp-avatax.php",
+    "textdomain": "awesome-support-api",
+    "src": "awesome-support-api.php",
     "header": {
       "bugs": "https://skilledcode.com/support/",
       "team": "SkilledCode <support@iwitnessdesign.com>",

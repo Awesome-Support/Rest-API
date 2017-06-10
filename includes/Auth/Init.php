@@ -46,7 +46,6 @@ class Init {
 	public function add_hooks() {
 		add_action( 'show_user_profile', array( __CLASS__, 'show_user_profile' ) );
 		add_action( 'edit_user_profile', array( __CLASS__, 'show_user_profile' ) );
-		add_action( 'rest_api_init', array( __CLASS__, 'rest_api_init' ) );
 		add_filter( 'determine_current_user', array( __CLASS__, 'rest_api_auth_handler' ), 20 );
 		add_filter( 'wp_rest_server_class', array( __CLASS__, 'wp_rest_server_class' ) );
 		self::fallback_populate_username_password();
@@ -74,57 +73,6 @@ class Init {
 			$current_user = null;
 		}
 		return $class;
-	}
-
-	/**
-	 * Handle declaration of REST API endpoints.
-	 */
-	public static function rest_api_init() {
-//		$controller = new Passwords();
-//		$controller->register_routes();
-
-		return;
-
-		// List existing application passwords
-		register_rest_route( wpas_api()->get_api_namespace(), '/passwords/(?P<user_id>[\d]+)', array(
-			'methods' => WP_REST_Server::READABLE,
-			'callback' => __CLASS__ . '::rest_list_api_passwords',
-			'permission_callback' => __CLASS__ . '::rest_edit_user_callback',
-		) );
-
-		// Add new application passwords
-		register_rest_route( wpas_api()->get_api_namespace(), '/passwords/(?P<user_id>[\d]+)/add', array(
-//			array(
-				'methods'             => WP_REST_Server::CREATABLE,
-				'callback'            => __CLASS__ . '::rest_add_api_password',
-				'permission_callback' => __CLASS__ . '::rest_edit_user_callback',
-				'args'                => array(
-					'name' => array(
-						'required' => true,
-					),
-				),
-//			),
-		) );
-
-		// Delete an application password
-		register_rest_route( wpas_api()->get_api_namespace(), '/passwords/(?P<user_id>[\d]+)/(?P<slug>[\da-fA-F]{12})', array(
-			'methods' => WP_REST_Server::DELETABLE,
-			'callback' => __CLASS__ . '::rest_delete_api_password',
-			'permission_callback' => __CLASS__ . '::rest_edit_user_callback',
-		) );
-
-		// Delete all application passwords for a given user
-		register_rest_route( wpas_api()->get_api_namespace(), '/passwords/(?P<user_id>[\d]+)', array(
-			'methods' => WP_REST_Server::DELETABLE,
-			'callback' => __CLASS__ . '::rest_delete_all_api_passwords',
-			'permission_callback' => __CLASS__ . '::rest_edit_user_callback',
-		) );
-
-		// Some hosts that run PHP in FastCGI mode won't be given the Authentication header.
-		register_rest_route( wpas_api()->get_api_namespace(), '/test-basic-authorization-header/', array(
-			'methods' => WP_REST_Server::READABLE . ', ' . WP_REST_Server::CREATABLE,
-			'callback' => __CLASS__ . '::rest_test_basic_authorization_header',
-		) );
 	}
 
 	/**

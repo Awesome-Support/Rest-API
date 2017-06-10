@@ -18,7 +18,7 @@ defined( 'ABSPATH' ) or exit;
 wpas_api();
 
 /**
- * WooCommerce AvaTax main plugin class.
+ * Awesome Support API main plugin class.
  *
  * @since 1.0.0
  */
@@ -31,9 +31,9 @@ class WPAS_API {
 	/** @var WPAS_API single instance of this plugin */
 	protected static $instance;
 
-	/** @var bool $logging_enabled Whether debug logging is enabled */
-	private $logging_enabled;
-
+	/**
+	 * @var object WPAS_API\Auth\Init
+	 */
 	public $auth;
 
 	/**
@@ -44,14 +44,13 @@ class WPAS_API {
 	protected function __construct() {
 		require_once( $this->plugin_path() . 'vendor/autoload.php' );
 
+		if ( ! $this->check_required_plugins() ) {
+			return;
+		}
+
 		// Lifecycle
 		add_action( 'admin_init', array ( $this, 'maybe_activate' ) );
 		register_deactivation_hook( __FILE__, array( $this, 'deactivate' ) );
-
-		// Turn off API request logging unless specified in the settings
-		if ( ! $this->logging_enabled() ) {
-			remove_action( 'wpas_api_request_performed', array( $this, 'log_api_request' ) );
-		}
 
 		$this->includes();
 		$this->actions();
@@ -94,15 +93,15 @@ class WPAS_API {
 	public function load_text_domain() {
 
 		// Set filter for plugin's languages directory
-		$rcp_lang_dir = dirname( plugin_basename( $this->plugin_file() ) ) . '/languages/';
-		$rcp_lang_dir = apply_filters( 'wpas_api_languages_directory', $rcp_lang_dir );
+		$wpas_api_lang_dir = dirname( plugin_basename( $this->plugin_file() ) ) . '/languages/';
+		$wpas_api_lang_dir = apply_filters( 'wpas_api_languages_directory', $wpas_api_lang_dir );
 
 
 		// Traditional WordPress plugin locale filter
 
 		$get_locale = get_locale();
 
-		if ( function_exists( 'rcp_compare_wp_version' ) && rcp_compare_wp_version( 4.7 ) ) {
+		if ( function_exists( 'get_user_locale' ) ) {
 			$get_locale = get_user_locale();
 		}
 
@@ -116,18 +115,18 @@ class WPAS_API {
 		$mofile = sprintf( '%1$s-%2$s.mo', 'awesome-support-api', $locale );
 
 		// Setup paths to current locale file
-		$mofile_local  = $rcp_lang_dir . $mofile;
+		$mofile_local  = $wpas_api_lang_dir . $mofile;
 		$mofile_global = WP_LANG_DIR . '/awesome-support-api/' . $mofile;
 
 		if ( file_exists( $mofile_global ) ) {
-			// Look in global /wp-content/languages/rcp folder
+			// Look in global /wp-content/languages/awesome-support-api folder
 			load_textdomain( 'awesome-support-api', $mofile_global );
 		} elseif ( file_exists( $mofile_local ) ) {
-			// Look in local /wp-content/plugins/easy-digital-downloads/languages/ folder
+			// Look in local /wp-content/plugins/awesome-support-api/languages/ folder
 			load_textdomain( 'awesome-support-api', $mofile_local );
 		} else {
 			// Load the default language files
-			load_plugin_textdomain( 'awesome-support-api', false, $rcp_lang_dir );
+			load_plugin_textdomain( 'awesome-support-api', false, $wpas_api_lang_dir );
 		}
 
 	}
@@ -170,6 +169,13 @@ class WPAS_API {
 				'type'        => 'integer'
 			),
 		) );
+	}
+
+	/**
+	 * Required Plugins notice
+	 */
+	public function required_plugins() {
+		printf( '<div class="error"><p>%s</p></div>', __( 'Awesome Support is required for the Awesome Support API add-on to function.', 'awesome-support-api' ) );
 	}
 
 	/** Filters ******************************************************/
@@ -262,7 +268,7 @@ class WPAS_API {
 	 * @return string
 	 */
 	public function get_api_namespace() {
-		return apply_filters( 'wpas_api_namespace', 'wpas-api/v1' );
+		return apply_filters( 'wpas_api_get_api_namespace', 'wpas-api/v1' );
 	}
 
 	/**
@@ -327,46 +333,22 @@ class WPAS_API {
 	}
 
 	/**
-	 * Returns true if on the plugin's settings page
-	 *
-	 * @since 1.0.0
-	 * @return boolean true if on the settings page
+	 * Make sure all required plugins are active
+	 * @return bool
 	 */
-	public function is_plugin_settings() {
-		return isset( $_GET['page'] ) &&
-			'wpas-settings' == $_GET['page'] &&
-			isset( $_GET['tab'] ) &&
-			'api' == $_GET['tab'];
-	}
+	protected function check_required_plugins() {
 
+		if ( ! function_exists( 'is_plugin_active' ) ) {
+			require_once( ABSPATH . 'wp-admin/includes/plugin.php' );
+		}
 
-	/**
-	 * Gets the plugin configuration URL
-	 *
-	 * @since 1.0.0
-	 * @return string plugin settings URL
-	 */
-	public function get_settings_url() {
-		return admin_url( 'admin.php?page=wpas-settings&tab=api' );
-	}
+		if ( is_plugin_active( 'awesome-support/awesome-support.php' ) ) {
+			return true;
+		}
 
-	/**
-	 * Determine if debug logging is enabled.
-	 *
-	 * @since 1.0.0
-	 * @return bool $logging_enabled Whether debug logging is enabled.
-	 */
-	public function logging_enabled() {
+		add_action( 'admin_notices', array( $this, 'required_plugins' ) );
 
-		$this->logging_enabled = ( 'yes' === get_option( 'wpas_api_debug' ) );
-
-		/**
-		 * Filter whether debug logging is enabled.
-		 *
-		 * @since 1.0.0
-		 * @param bool $logging_enabled Whether debug logging is enabled.
-		 */
-		return apply_filters( 'wpas_api_logging_enabled', $this->logging_enabled );
+		return false;
 	}
 
 	/** Lifecycle methods ******************************************************/
