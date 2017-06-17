@@ -118,6 +118,37 @@ class TicketBase extends WP_REST_Posts_Controller {
 	}
 
 	/**
+	 * Checks if a given request has access to create a post.
+	 *
+	 * @since 4.7.0
+	 * @access public
+	 *
+	 * @param \WP_REST_Request $request Full details about the request.
+	 * @return true|WP_Error True if the request has access to create items, WP_Error object otherwise.
+	 */
+	public function create_item_permissions_check( $request ) {
+		if ( ! empty( $request['id'] ) ) {
+			return new WP_Error( 'rest_post_exists', __( 'Cannot create existing post.' ), array( 'status' => 400 ) );
+		}
+
+		$post_type = get_post_type_object( $this->post_type );
+
+		if ( ! empty( $request['author'] ) && get_current_user_id() !== $request['author'] && ! current_user_can( $post_type->cap->edit_others_posts ) ) {
+			return new WP_Error( 'rest_cannot_edit_others', __( 'Sorry, you are not allowed to create posts as this user.' ), array( 'status' => rest_authorization_required_code() ) );
+		}
+
+		if ( ! current_user_can( 'create_ticket' ) ) {
+			return new WP_Error( 'rest_cannot_create', __( 'Sorry, you are not allowed to create posts as this user.' ), array( 'status' => rest_authorization_required_code() ) );
+		}
+
+		if ( ! $this->check_assign_terms_permission( $request ) ) {
+			return new WP_Error( 'rest_cannot_assign_term', __( 'Sorry, you are not allowed to assign the provided terms.' ), array( 'status' => rest_authorization_required_code() ) );
+		}
+
+		return true;
+	}
+
+	/**
 	 * Are we creating a brand new item?
 	 *
 	 * @param \WP_REST_Request $request
@@ -125,7 +156,7 @@ class TicketBase extends WP_REST_Posts_Controller {
 	 * @return bool
 	 */
 	public function is_item_new( $request ) {
-		return ( null !== $request['id'] );
+		return ( null === $request['id'] );
 	}
 
 	/**
