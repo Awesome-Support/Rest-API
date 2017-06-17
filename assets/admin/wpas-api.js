@@ -52,7 +52,7 @@
 		$newAppPassButton.prop( 'disabled', true );
 
 		$.ajax( {
-			url:        wpasAPI.root + wpasAPI.namespace + '/passwords/' + wpasAPI.user_id,
+			url:        wpasAPI.root + wpasAPI.namespace + '/users/' + wpasAPI.user_id + '/passwords',
 			method:     'POST',
 			beforeSend: function( xhr ) {
 				xhr.setRequestHeader( 'X-WP-Nonce', wpasAPI.nonce );
@@ -84,7 +84,7 @@
 			slug = $tr.data( 'slug' );
 
 		$.ajax( {
-			url:        wpasAPI.root + wpasAPI.namespace + '/passwords/' + wpasAPI.user_id + '/' + slug,
+			url:        wpasAPI.root + wpasAPI.namespace + '/users/' + wpasAPI.user_id + '/passwords/' + slug,
 			method:     'DELETE',
 			beforeSend: function( xhr ) {
 				xhr.setRequestHeader( 'X-WP-Nonce', wpasAPI.nonce );
@@ -103,7 +103,7 @@
 		e.preventDefault();
 
 		$.ajax( {
-			url:        wpasAPI.root + wpasAPI.namespace + '/passwords/' + wpasAPI.user_id,
+			url:        wpasAPI.root + wpasAPI.namespace + '/users/' + wpasAPI.user_id + '/passwords',
 			method:     'DELETE',
 			beforeSend: function( xhr ) {
 				xhr.setRequestHeader( 'X-WP-Nonce', wpasAPI.nonce );
