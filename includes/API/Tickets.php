@@ -203,10 +203,10 @@ class Tickets extends TicketBase {
 				}
 			} else {
 				$term      = $request[ $base ];
-				$get_field = is_int( $term ) ? 'id' : 'slug';
+				$get_field = is_numeric( $term ) ? 'id' : 'slug';
 
 				if ( ! $term = get_term_by( $get_field, $request[ $base ], $base ) ) {
-					return new WP_Error( 'invalid_term', __( 'That term does not exist.', 'awesome-support-api' ) );
+					return new WP_Error( 'invalid_term', sprintf( __( 'That %s term does not exist.', 'awesome-support-api' ), $base ) );
 				}
 
 				$field  = new WPAS_Custom_Field( $base, $custom_fields[ $base ] );
@@ -543,6 +543,11 @@ class Tickets extends TicketBase {
 		$log = true;
 
 		if ( $this->is_item_new( $request ) ) {
+
+			if ( ! $value ) {
+				$value = wpas_find_agent();
+			}
+
 			$value = apply_filters( 'wpas_new_ticket_agent_id', $value, $object->ID, $value );
 			$log = false;
 		}
