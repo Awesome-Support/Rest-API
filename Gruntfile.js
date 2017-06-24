@@ -129,6 +129,9 @@ module.exports = function (grunt) {
 						'!package.json',
 						'!*.sublime-workspace',
 						'!*.sublime-project',
+						'!vendor/**',
+						'vendor/autoload.php',
+						'vendor/composer/**',
 						'!awesome-support-api-<%= pkg.version %>.zip'
 					]
 				}]
