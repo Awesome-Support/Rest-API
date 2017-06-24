@@ -3,7 +3,7 @@ Awesome Support
 
 [![Build Status](https://travis-ci.org/Awesome-Support/Rest-API.svg?branch=develop)](https://travis-ci.org/Awesome-Support/Rest-API) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Awesome-Support/Rest-API/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Awesome-Support/Rest-API/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/Awesome-Support/Rest-API/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Awesome-Support/Rest-API/?branch=master)
 
-Awesome Support is the most advanced ticketing system for WordPress. It is the result of two years of work, research and improvement. Most of its features are an answer to users requests and that's what makes it the best support plugin for WordPress.
+Awesome Support is the most advanced ticketing system for WordPress. This add-on creates a powerful API that can be used to interact with all of the components of the Awesome Support base plugin.
 
 ## Requirements
 
@@ -23,7 +23,7 @@ git clone git@github.com:Awesome-Support/Rest-API.git awesome-support-api && cd 
 
 ### Not a developer?
 
-If you're not a developer you're better off using the [production version available on WordPress.org](https://wordpress.org/plugins/awesome-support/).
+If you're not a developer you're better off using the [production version available on WordPress.org](https://wordpress.org/plugins/awesome-support-api/).
 
 ### Dependencies
 
