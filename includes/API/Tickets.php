@@ -588,6 +588,8 @@ class Tickets extends TicketBase {
 	/**
 	 * Update the total time of a ticket
 	 *
+	 * @todo if you update this functionality, be sure to do the same in the core plugin plugin in /includes/custom-fields/functions-custom-fields.php on line 169
+	 *
 	 * @param $ticket
 	 */
 	public function update_time_spent_on_ticket( $ticket ) {
@@ -636,6 +638,8 @@ class Tickets extends TicketBase {
 
 	/**
 	 * Add the provided field to the ticket history log
+	 *
+	 * @todo if you update this functionality, be sure to do the same in the core plugin plugin in /includes/custom-fields/class-custom-fields.php on line 422
 	 *
 	 * @param WPAS_Custom_Field $field
 	 * @param integer           $result
