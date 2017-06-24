@@ -12,22 +12,6 @@ module.exports = function (grunt) {
 		},
 
 		/*
-		Concatenate & Minify Javascript files
-		@author: https://github.com/gruntjs/grunt-contrib-uglify
-		 */
-		uglify: {
-			admin: {
-				options: {
-					sourceMap: true
-				},
-				src: [
-					'assets/admin/js/*.js'
-				],
-				dest: 'assets/admin/js/admin-dist.js'
-			}
-		},
-
-		/*
 		Combine LESS files into CSS
 		@author: https://github.com/gruntjs/grunt-contrib-less
 		 */
@@ -234,10 +218,6 @@ module.exports = function (grunt) {
 					port: 9000
 				}
 			},
-			js: {
-				files: ['assets/**/*.js'],
-				tasks: ['uglify']
-			},
 			css: {
 				files: ['assets/**/*.less', 'assets/**/*.css', 'themes/**/*.less'],
 				tasks: ['less', 'autoprefixer', 'combine_mq', 'cssmin']
@@ -248,8 +228,8 @@ module.exports = function (grunt) {
 
 	require('load-grunt-tasks')(grunt);
 
-	grunt.registerTask('default', ['jshint', 'uglify', 'less', 'autoprefixer', 'combine_mq', 'cssmin', 'watch']);
-	grunt.registerTask('build', ['jshint', 'uglify', 'less', 'autoprefixer', 'combine_mq', 'cssmin']);
+	grunt.registerTask('default', ['jshint', 'less', 'autoprefixer', 'combine_mq', 'cssmin', 'watch']);
+	grunt.registerTask('build', ['jshint', 'less', 'autoprefixer', 'combine_mq', 'cssmin']);
 
 	grunt.registerTask('txpull', ['exec:txpull', 'potomo']);
 	grunt.registerTask('txpush', ['makepot', 'exec:txpush']);
