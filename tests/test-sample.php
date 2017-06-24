@@ -2,7 +2,7 @@
 /**
  * Class SampleTest
  *
- * @package Rcp_Avatax
+ * @package Awesome_Support_Api
  */
 
 /**
