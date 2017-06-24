@@ -138,7 +138,9 @@ class WPAS_API {
 		/**
 		 * Register the addon
 		 */
-		wpas_register_addon( $this->slug, array( $this, 'load' ) );
+		if ( function_exists( 'wpas_register_addon' ) ) {
+			wpas_register_addon( $this->slug, array( $this, 'load' ) );
+		}
 
 		return true;
 
