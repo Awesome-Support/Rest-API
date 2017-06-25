@@ -1,7 +1,7 @@
 <?php
 /**
  * Plugin Name: Awesome Support API
- * Plugin URI: https://getawesomesupport.com/addons/api/
+ * Plugin URI: https://getawesomesupport.com/addons/awesome-support-rest-api/
  * Description: API add-on for Awesome Support
  * Author: Awesome Support
  * Author URI: https://getawesomesupport.com/

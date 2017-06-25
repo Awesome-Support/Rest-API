@@ -106,7 +106,7 @@ module.exports = function (grunt) {
 		compress: {
 			main: {
 				options: {
-					archive: 'awesome-support-api-<%= pkg.version %>.zip',
+					archive: 'awesome-support-rest-api-<%= pkg.version %>.zip',
 					mode: 'zip'
 				},
 				files: [{
@@ -133,7 +133,7 @@ module.exports = function (grunt) {
 						'!vendor/**',
 						'vendor/autoload.php',
 						'vendor/composer/**',
-						'!awesome-support-api-<%= pkg.version %>.zip'
+						'!awesome-support-rest-api-<%= pkg.version %>.zip'
 					]
 				}]
 			}
