@@ -127,6 +127,7 @@ module.exports = function (grunt) {
 						'!CONTRIBUTING.md',
 						'!Gruntfile.js',
 						'!package.json',
+						'!package-lock.json',
 						'!*.sublime-workspace',
 						'!*.sublime-project',
 						'!vendor/**',
