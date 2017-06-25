@@ -54,9 +54,5 @@
     "post-install-cmd": "npm install",
     "pre-archive-cmd": "composer install"
   },
-  "post-update-cmd": {
-  },
-  "require-dev": {
-    "phpunit/phpunit": "5.7"
-  }
+  "post-update-cmd": {}
 }
