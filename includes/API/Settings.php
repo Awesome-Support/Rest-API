@@ -230,7 +230,7 @@ class Settings extends WP_REST_Settings_Controller {
 
 			$rest_args = array();
 
-			if ( is_array( $args['show_in_rest'] ) ) {
+			if ( isset( $args['show_in_rest'] ) && is_array( $args['show_in_rest'] ) ) {
 				$rest_args = $args['show_in_rest'];
 			}
 

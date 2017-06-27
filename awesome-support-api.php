@@ -5,7 +5,7 @@
  * Description: API add-on for Awesome Support
  * Author: Awesome Support
  * Author URI: https://getawesomesupport.com/
- * Version: 1.0.0
+ * Version: 1.0.1
  * Text Domain: awesome-support-api
  * Domain Path: /languages/
  *
