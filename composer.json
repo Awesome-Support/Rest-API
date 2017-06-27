@@ -1,7 +1,7 @@
 {
   "name": "awesomesupport/awesome-support-api",
   "type": "wordpress-plugin",
-  "description": "API add-on for Awesome Support",
+  "description": "REST API add-on for Awesome Support",
   "keywords": [
     "help",
     "helpdesk",

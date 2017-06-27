@@ -1,18 +1,12 @@
 Awesome Support
 ==================
 
-[![Build Status](https://travis-ci.org/Awesome-Support/Rest-API.svg?branch=develop)](https://travis-ci.org/Awesome-Support/Rest-API) [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/Awesome-Support/Rest-API/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/Awesome-Support/Rest-API/?branch=master) [![Code Coverage](https://scrutinizer-ci.com/g/Awesome-Support/Rest-API/badges/coverage.png?b=master)](https://scrutinizer-ci.com/g/Awesome-Support/Rest-API/?branch=master)
-
 Awesome Support is the most advanced ticketing system for WordPress. This add-on creates a powerful API that can be used to interact with all of the components of the Awesome Support base plugin.
 
 ## Requirements
 
 - WordPress 4.0+
 - PHP 5.6+
-
-Below are some info from the plugin's repository on [WordPress.org](https://wordpress.org/plugins/awesome-support-api/).
-
-![WordPress plugin](https://img.shields.io/wordpress/plugin/v/Awesome-Support-API.svg?style=flat) ![Tested WordPress version](https://img.shields.io/wordpress/v/Awesome-Support-API.svg?style=flat) ![WordPress.org rating](https://img.shields.io/wordpress/plugin/r/Awesome-Support-API.svg?style=flat) [![Wordpress](https://img.shields.io/wordpress/plugin/dt/Awesome-Support-API.svg?style=flat)]()
 
 ## Installation
 
