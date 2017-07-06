@@ -1,6 +1,6 @@
 <?php
 /**
- * Plugin Name: Awesome Support REST API
+ * Plugin Name: Awesome Support: REST API
  * Plugin URI: https://getawesomesupport.com/addons/awesome-support-rest-api/
  * Description: REST API add-on for Awesome Support
  * Author: Awesome Support
