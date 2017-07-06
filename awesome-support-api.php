@@ -5,7 +5,7 @@
  * Description: REST API add-on for Awesome Support
  * Author: Awesome Support
  * Author URI: https://getawesomesupport.com/
- * Version: 1.0.1
+ * Version: 1.0.2
  * Text Domain: awesome-support-api
  * Domain Path: /languages/
  *
@@ -213,7 +213,7 @@ class WPAS_API {
 		}
 
 		/**
-		 * Defines the plugin language locale used in RCP.
+		 * Defines the plugin language locale used.
 		 *
 		 * @var string $get_locale The locale to use. Uses get_user_locale()` in WordPress 4.7 or greater,
 		 *                  otherwise uses `get_locale()`.
@@ -249,6 +249,9 @@ class WPAS_API {
 		$controller->register_routes();
 
 		$controller = new WPAS_API\API\Passwords();
+		$controller->register_routes();
+
+		$controller = new WPAS_API\API\Attachments();
 		$controller->register_routes();
 	}
 
@@ -588,7 +591,7 @@ class WPAS_API {
 			update_option( 'wpas_api_is_active', true );
 
 			/**
-			 * Run when AvaTax is activated.
+			 * Run when activated.
 			 *
 			 * @since 1.0.0
 			 */
@@ -611,7 +614,7 @@ class WPAS_API {
 		delete_option( 'wpas_api_is_active' );
 
 		/**
-		 * Run when AvaTax is deactivated
+		 * Run when deactivated
 		 *
 		 * @since 1.0.0
 		 */
