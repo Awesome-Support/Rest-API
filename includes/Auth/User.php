@@ -171,7 +171,7 @@ class User extends \WP_User {
 			}
 		}
 
-		if ( ! $authenticated && apply_filters( 'wpas_api_allow_password_authentication', true ) ) {
+		if ( ! $authenticated && $this->user_pass && apply_filters( 'wpas_api_allow_password_authentication', true ) ) {
 			$authenticated = wp_check_password( $password, $this->user_pass, $this->ID );
 		}
 

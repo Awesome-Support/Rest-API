@@ -1,38 +1,20 @@
-# Contributing
-Thanks for taking the time to contribute! Here are a few
-notes for you to make the experience smoother.
+# How to contribute?
+You happened to really like Awesome Support and you would like to make it even better? Here are a few things you can do to show your love...
 
-## Change Workflow
-### Issues
-**Proposed changes of any kind must have an associated issue.**
-Pull requests without a linked issue may be missed or ignored.
-Before opening a pull request, please [open an issue](https://github.com/restrictcontentpro/restrict-content-pro/issues/new).
-Describe the issue in detail. Note the issue number, you will need it for your pull request.
+## 1) Bug fixes and improvements
+If you’re a developer and you like to get your hands dirty, then feel free to fork, make fixes or improvements and create pull requests. If you’re not a WordPress or PHP developer you can still help. For instance you might have spotted a few typos.
 
-### Commit Messages
-Commit messages should reference the associated issue number and follow the standard laid out in the git manual; that is,
-a one-line summary ()
+[Fork the plugin →](https://github.com/Awesome-Support/Rest-API/fork)
 
-	Short (50 chars or less) summary of changes. #xxx (where xxx is the issue number)
+#### Developer Guide
+Make sure to check out the [Developer Guide](https://github.com/ThemeAvenue/Awesome-Support/wiki/Developer-Guide), which explains how to setup your development environment.
 
-	More details, if necessary.  Wrap it to about 72 characters or so.
-	In some contexts, the first line is treated as the subject of an
-	email and the rest of the text as the body.  The blank line separating
-	the summary from the body is critical (unless you omit the body entirely);
-	tools like rebase can get confused if you run the two together.
+## 2) Submit an issue
+Prior to submitting an issue on Github, please be aware that we offer priority support to our paid customers. To create a support ticket, please [click here](https://getawesomesupport.com/submit-ticket/). For support related to the core plugin, please head over to the [dedicated WordPress forums](https://wordpress.org/support/plugin/awesome-support).
 
-### Pull Requests
-When making a pull request, please name your branch in the form of `issue/xxx`, where
-`xxx` is the issue number. Also, reference your issue number in the pull request title and body
-so that Github links it to the issue. This helps us review your proposal quicker.
+[Crate New Issue →](https://github.com/Awesome-Support/Rest-API/issues/new)
 
-## Development Workflow
+## 3) Translate the plugin in your language
+If you’re a non developer, perhaps the easiest thing to help with is translations. We are hoping that Awesome Support will be translated in several languages. Head over to the project on Transifex to start translating the plugin in your own language.
 
-Generally, new features and bug fixes slated for the next major release
-are developed in issue branches, and merged to the `release/x.x` branch after review and testing.
-
-Issues milestoned for a point release are also developed in issue branches, but are
-merged into `master` after review and testing.
-
-## Questions?
-Shoot us an [email](https://restrictcontentpro.com/support/) or ask on the issue you created.
+[Translate in your language →](https://www.transifex.com/projects/p/awesome-support/)

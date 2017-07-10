@@ -1,22 +1,58 @@
 {
   "name": "awesomesupport/awesome-support-api",
   "type": "wordpress-plugin",
-  "description": "API add-on for Awesome Support",
+  "description": "REST API add-on for Awesome Support",
   "keywords": [
+    "help",
+    "helpdesk",
     "support",
+    "support staff",
+    "ticketing",
+    "tickets",
     "api"
   ],
-  "homepage": "https://getawesomesupport.com/addons/api/",
+  "homepage": "https://getawesomesupport.com",
+  "license": "GNU GPL",
   "authors": [
+    {
+      "name": "Awesome Support",
+      "email": "contact@awesomesupport.com",
+      "homepage": "https://getawesomesupport.com"
+    },
     {
       "name": "Tanner Moushey",
       "email": "tanner@iwitnessdesign.com",
-      "homepage": "https://iwitnessdesign.com"
+      "homepage": "https://iwitnessdesign.com",
+      "role": "Lead Developer"
     }
   ],
+  "require": {
+    "php": ">=5.6"
+  },
+  "archive": {
+    "exclude": [
+      ".gitignore",
+      "*.sublime-workspace",
+      "*.sublime-project",
+      "apigen.neon",
+      "composer.json",
+      "composer.lock",
+      "README.md",
+      "Gruntfile.js",
+      "package.json",
+      "/node_modules",
+      "/tests",
+      "!/vendor"
+    ]
+  },
   "autoload": {
     "psr-4": {
       "WPAS_API\\": "includes/"
     }
-  }
+  },
+  "scripts": {
+    "post-install-cmd": "npm install",
+    "pre-archive-cmd": "composer install"
+  },
+  "post-update-cmd": {}
 }

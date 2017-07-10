@@ -10,7 +10,7 @@ class Init {
 	protected static $_instance;
 
 	/**
-	 * Only make one instance of \RCP_Avatax\Init
+	 * Only make one instance of \WPAS_API\Admin
 	 *
 	 * @return Init
 	 */

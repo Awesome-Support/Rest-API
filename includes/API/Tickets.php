@@ -203,10 +203,10 @@ class Tickets extends TicketBase {
 				}
 			} else {
 				$term      = $request[ $base ];
-				$get_field = is_int( $term ) ? 'id' : 'slug';
+				$get_field = is_numeric( $term ) ? 'id' : 'slug';
 
 				if ( ! $term = get_term_by( $get_field, $request[ $base ], $base ) ) {
-					return new WP_Error( 'invalid_term', __( 'That term does not exist.', 'awesome-support-api' ) );
+					return new WP_Error( 'invalid_term', sprintf( __( 'That %s term does not exist.', 'awesome-support-api' ), $base ) );
 				}
 
 				$field  = new WPAS_Custom_Field( $base, $custom_fields[ $base ] );
@@ -543,6 +543,11 @@ class Tickets extends TicketBase {
 		$log = true;
 
 		if ( $this->is_item_new( $request ) ) {
+
+			if ( ! $value ) {
+				$value = wpas_find_agent();
+			}
+
 			$value = apply_filters( 'wpas_new_ticket_agent_id', $value, $object->ID, $value );
 			$log = false;
 		}
@@ -582,6 +587,8 @@ class Tickets extends TicketBase {
 
 	/**
 	 * Update the total time of a ticket
+	 *
+	 * @todo if you update this functionality, be sure to do the same in the core plugin plugin in /includes/custom-fields/functions-custom-fields.php on line 169
 	 *
 	 * @param $ticket
 	 */
@@ -631,6 +638,8 @@ class Tickets extends TicketBase {
 
 	/**
 	 * Add the provided field to the ticket history log
+	 *
+	 * @todo if you update this functionality, be sure to do the same in the core plugin plugin in /includes/custom-fields/class-custom-fields.php on line 422
 	 *
 	 * @param WPAS_Custom_Field $field
 	 * @param integer           $result
