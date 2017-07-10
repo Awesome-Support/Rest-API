@@ -17,7 +17,7 @@ git clone git@github.com:Awesome-Support/Rest-API.git awesome-support-api && cd 
 
 ### Not a developer?
 
-If you're not a developer you're better off using the [production version available on WordPress.org](https://wordpress.org/plugins/awesome-support-api/).
+If you're not a developer you're better off using the [production version available on www.awesomesupport.com](https://getawesomesupport.com/addons/awesome-support-rest-api/)
 
 ### Dependencies
 
@@ -44,10 +44,24 @@ This command will do a few things for you:
 
 1. Install the plugin dependencies (via Composer)
 2. Install Grunt & all Grunt modules (via `npm install`)
-3. You should now be able to launch the default Grunt task with `grunt`
+3. You should now be able to launch the default Grunt task with `grunt --force release`
 
 ## Contributing
 
-If you want to contribute to the plugin or just follow the development, all chats will be held on the Gitter channel.
+Feel free to submit pull requests in github.  
 
-[![Gitter](https://badges.gitter.im/Join%20Chat.svg)](https://gitter.im/ThemeAvenue/Awesome-Support?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+### Change Log
+-----------------------------------------------------------------------------------------
+###### Version 1.0.2
+- Tweak: Updated headers on main plugin file
+- Tweak: Remove .zip file from version control
+- Tweak: Remove invalid badges from readme.md file
+- Tweak: Remove vendor folder from project - will be included dynamically during the build process
+- Tweak: Clean up this readme.md file
+- Fix: Plugin name
+
+###### Version 1.0.1
+- Internal Release
+
+###### Version 1.0.0
+- Initial Release
