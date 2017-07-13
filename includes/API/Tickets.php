@@ -640,6 +640,7 @@ class Tickets extends TicketBase {
 	 * Add the provided field to the ticket history log
 	 *
 	 * @todo if you update this functionality, be sure to do the same in the core plugin plugin in /includes/custom-fields/class-custom-fields.php on line 422
+	 * @see \WPAS_Custom_Fields::save_custom_fields()
 	 *
 	 * @param WPAS_Custom_Field $field
 	 * @param integer           $result
@@ -660,8 +661,9 @@ class Tickets extends TicketBase {
 		 * If the term didn't exist the save function would have seen it and returned 0.
 		 */
 		if ( 'taxonomy' === $field->field_args['field_type'] && 0 !== $result ) {
-			$term  = get_term_by( 'slug', $value, $field->field_id );
-			$value = $term->name;
+			if ( $term  = get_term_by( 'slug', $value, $field->field_id ) ) {
+				$value = $term->name;
+			}
 		}
 
 		/**

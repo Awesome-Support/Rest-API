@@ -86,7 +86,7 @@ module.exports = function (grunt) {
 			},
 			pluginConstant: {
 				options: {
-					prefix: 'define\\(\\s*\'WPAS_VERSION\',\\s*\''
+					prefix: 'define\\(\\s*\'AS_API_VERSION\',\\s*\''
 				},
 				src: [
 					'awesome-support-api.php'

@@ -5,7 +5,7 @@
  * Description: REST API add-on for Awesome Support
  * Author: Awesome Support
  * Author URI: https://getawesomesupport.com/
- * Version: 1.0.2
+ * Version: 1.0.3
  * Text Domain: awesome-support-api
  * Domain Path: /languages/
  *
@@ -99,7 +99,7 @@ class WPAS_API {
 	 * Declare plugin constants
 	 */
 	protected function declare_constants() {
-		define( 'AS_API_VERSION', '1.0.0' );
+		define( 'AS_API_VERSION', '1.0.3' );
 		define( 'AS_API_URL',     $this->plugin_url() );
 		define( 'AS_API_PATH',    trailingslashit( $this->plugin_path() ) );
 	}
