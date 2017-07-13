@@ -123,7 +123,6 @@ module.exports = function (grunt) {
 						'!composer.lock',
 						'!tests/**',
 						'!logs/**',
-						'!README.md',
 						'!CONTRIBUTING.md',
 						'!Gruntfile.js',
 						'!package.json',
