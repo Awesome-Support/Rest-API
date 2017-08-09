@@ -52,6 +52,9 @@ Feel free to submit pull requests in github.
 
 ### Change Log
 -----------------------------------------------------------------------------------------
+###### Version 1.0.3
+- Fix: Check existence of data in term object before using its contents
+
 ###### Version 1.0.2
 - Tweak: Updated headers on main plugin file
 - Tweak: Remove .zip file from version control
