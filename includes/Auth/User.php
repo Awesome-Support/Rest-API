@@ -109,6 +109,10 @@ class User extends \WP_User {
 			if ( $slug === $key || self::password_unique_slug( $item ) === $slug ) {
 				unset( $passwords[ $key ] );
 				$this->set_api_passwords( $passwords );
+
+				// notify addons of password deletion
+				apply_filters( 'wpas_api_delete_api_password', $item, $this );
+
 				return true;
 			}
 		}
