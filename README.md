@@ -52,6 +52,9 @@ Feel free to submit pull requests in github.
 
 ### Change Log
 -----------------------------------------------------------------------------------------
+###### Version 1.0.4
+- Fix: Gutenberg plugin compatibilty fixes
+
 ###### Version 1.0.3
 - Fix: Check existence of data in term object before using its contents
 
