@@ -218,8 +218,12 @@ class Settings extends WP_REST_Settings_Controller {
 	 * @return array Array of registered options.
 	 */
 	protected function get_registered_options() {
-		$settings     = self::$_titan->optionsUsed;
+		$settings     = isset( self::$_titan->optionsUsed ) ? self::$_titan->optionsUsed : false;
 		$rest_options = array();
+
+		if ( empty( $settings ) ) {
+			return $rest_options;
+		}
 
 		foreach ( $settings as $option ) {
 			$args = $option->settings;
