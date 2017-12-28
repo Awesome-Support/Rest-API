@@ -180,6 +180,7 @@ class WPAS_API {
 		add_filter( 'register_post_type_args', array( $this, 'enable_rest_api_cpt' ), 10, 2 );
 		add_filter( 'register_taxonomy_args',  array( $this, 'enable_rest_api_tax' ), 10, 3 );
 		add_filter( 'rest_prepare_taxonomy',   array( $this, 'taxonomy_rest_response' ), 10, 3 );
+		add_filter( 'rest_pre_dispatch',       array( $this, 'reroute_ticket_dispatch' ), 10, 3 );
 	}
 
 	/**
@@ -391,6 +392,29 @@ class WPAS_API {
 		}
 
 		return $response;
+	}
+
+	/**
+	 * Gutenberg uses the default /wp/v2/ namespace for all posts. This rewrites the route to support our namespace.
+	 *
+	 * @param $result
+	 * @param WP_REST_Server $server
+	 * @param WP_REST_Request $request
+	 *
+	 * @since  1.0.4
+	 *
+	 * @return WP_REST_Response
+	 * @author Tanner Moushey
+	 */
+	public function reroute_ticket_dispatch( $result, $server, $request ) {
+
+		if ( false === strpos( $request->get_route(), '/wp/v2/tickets' ) ) {
+			return $result;
+		}
+
+		$request->set_route( str_replace( '/wp/v2/tickets', '/wpas-api/v1/tickets', $request->get_route() ) );
+		return rest_do_request( $request );
+
 	}
 
 	/** Helper methods ******************************************************/
