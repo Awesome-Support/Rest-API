@@ -512,7 +512,7 @@ class WPAS_API {
 	 * @return boolean Whether or not the core is active
 	 */
 	protected function is_core_active() {
-		if ( in_array( 'awesome-support/awesome-support.php', apply_filters( 'active_plugins', get_option( 'active_plugins' ) ) ) ) {
+		if ( class_exists( 'Awesome_Support' ) ) {
 			return true;
 		} else {
 			return false;

@@ -42,7 +42,12 @@ class User extends \WP_User {
 	 * @return array
 	 */
 	public function get_api_passwords() {
-		$passwords = get_user_meta( $this->ID, self::USERMETA_KEY_API_PASSWORDS, true );
+		$passwords = get_user_option( self::USERMETA_KEY_API_PASSWORDS, $this->ID );
+
+		// backwards compatibility for passwords stored in usermeta globally
+		if ( $old_passwords = $this->get( self::USERMETA_KEY_API_PASSWORDS ) ) {
+			$passwords = array_merge( $old_passwords, $passwords );
+		}
 
 		if ( ! is_array( $passwords ) ) {
 			return array();
@@ -52,14 +57,16 @@ class User extends \WP_User {
 	}
 
 	/**
-	 * Set a users application passwords.
+	 * Set a users application passwords. Uses update_user_option to ensure that passwords stay specific to an individual site on a multisite.
+	 *
+	 * @uses update_user_option
 	 *
 	 * @param array $passwords Application passwords.
 	 *
 	 * @return bool
 	 */
 	public function set_api_passwords( $passwords ) {
-		return update_user_meta( $this->ID, self::USERMETA_KEY_API_PASSWORDS, $passwords );
+		return update_user_option( $this->ID, self::USERMETA_KEY_API_PASSWORDS, $passwords );
 	}
 
 	/**
