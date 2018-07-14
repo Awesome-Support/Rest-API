@@ -163,7 +163,7 @@ class User extends \WP_User {
 		 */
 		$password = preg_replace( '/[^a-z\d]/i', '', $password );
 
-		$hashed_passwords = get_user_meta( $this->ID, self::USERMETA_KEY_API_PASSWORDS, true );
+		$hashed_passwords = get_user_option( self::USERMETA_KEY_API_PASSWORDS, $this->ID );
 
 		// If there aren't any, there's nothing to return.  Avoid the foreach.
 		if ( empty( $hashed_passwords ) ) {
@@ -175,7 +175,7 @@ class User extends \WP_User {
 				$item['last_used']        = time();
 				$item['last_ip']          = $_SERVER['REMOTE_ADDR'];
 				$hashed_passwords[ $key ] = $item;
-				update_user_meta( $this->ID, self::USERMETA_KEY_API_PASSWORDS, $hashed_passwords );
+				update_user_option( $this->ID, self::USERMETA_KEY_API_PASSWORDS, $hashed_passwords );
 
 				$authenticated = true;
 				break;
