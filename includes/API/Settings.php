@@ -62,7 +62,7 @@ class Settings extends WP_REST_Settings_Controller {
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_item' ),
 				'args'                => array(),
-				'permission_callback' => array( $this, 'get_item_permissions_check' ),
+				//'permission_callback' => array( $this, 'get_item_permissions_check' ),
 			),
 			array(
 				'methods'             => WP_REST_Server::EDITABLE,
