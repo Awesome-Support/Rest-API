@@ -68,7 +68,7 @@ class Settings extends WP_REST_Settings_Controller {
 				'methods'             => WP_REST_Server::EDITABLE,
 				'callback'            => array( $this, 'update_item' ),
 				'args'                => $this->get_endpoint_args_for_item_schema( WP_REST_Server::EDITABLE ),
-				'permission_callback' => array( $this, 'get_item_permissions_check' ),
+				'permission_callback' => array( $this, 'update_item_permissions_check' ),
 			),
 			'schema' => array( $this, 'get_public_item_schema' ),
 		) );
@@ -85,8 +85,27 @@ class Settings extends WP_REST_Settings_Controller {
 	 * @return bool True if the request has read access for the item, otherwise false.
 	 */
 	public function get_item_permissions_check( $request ) {
+		
+		if ( current_user_can( 'settings_tickets' ) or current_user_can( 'create_ticket' ) ) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Checks if a given request has access to update settings.
+	 *
+	 * @since 4.7.1
+	 * @access public
+	 *
+	 * @param WP_REST_Request $request Full details about the request.
+	 * @return bool True if the request has read access for the item, otherwise false.
+	 */
+	public function update_item_permissions_check( $request ) {
 		return current_user_can( 'settings_tickets' );
 	}
+
 
 	/**
 	 * Retrieves the settings.
