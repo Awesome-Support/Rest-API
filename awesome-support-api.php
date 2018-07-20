@@ -249,7 +249,7 @@ class WPAS_API {
 		$controller = new WPAS_API\API\Users();
 		$controller->register_routes();
 
-		$controller = new WPAS_API\API\Username();
+		$controller = new WPAS_API\API\UserData();
 		$controller->register_routes();
 
 		$controller = new WPAS_API\API\TicketStatus();
