@@ -10,7 +10,7 @@ use WP_REST_Response;
 use WP_Error;
 
 /**
- * Class used to manage a user's API Passwords via the REST API.
+ * Class used to get user id by user name
  *
  * @since 4.7.0
  *
@@ -72,7 +72,7 @@ class Username {
 	*/
 	public function get_user( $request ) {
 
-		$user = get_user_by( 'login', $request[ 'username' ] );
+		$user = get_user_by( 'login',  base64_decode( $request[ 'username' ] ) );
 		
 		// Check result
         if ( ! $user ) {
