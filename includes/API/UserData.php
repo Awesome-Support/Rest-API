@@ -2,7 +2,6 @@
 
 namespace WPAS_API\API;
 
-use WPAS_API\Auth\User;
 use WP_REST_Controller;
 use WP_REST_Server;
 use WP_REST_Request;
@@ -16,10 +15,11 @@ use WP_Error;
  *
  * @see WP_REST_Controller
  */
-class Username {
+class UserData {
 
 	public function __construct() {
 		$this->namespace = wpas_api()->get_api_namespace();
+		$this->rest_base = 'user';
     }
 
 	
@@ -30,7 +30,7 @@ class Username {
 	 */
 	public function register_routes() {
 
-		register_rest_route( $this->namespace, '/users/user/(?P<username>[0-9a-zA-Z_-]+)', array(
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/username/(?P<username>[0-9a-zA-Z_-]+)', array(
 			'args' => array(
 				'username' => array(
 					'description' => __( 'The username of requested user.', 'awesome-support-api' ),
@@ -42,9 +42,16 @@ class Username {
 				'methods'             => WP_REST_Server::READABLE,
 				'callback'            => array( $this, 'get_user' ),
 				'permission_callback' => array( $this, 'get_user_permissions_check' ),
-            ),
-			'schema' => null,
+            )
 		) );
+
+		
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/check', array(
+			'methods'             => WP_REST_Server::CREATABLE,
+			'callback'            => array( $this, 'check_credentials' ),
+			'permission_callback' => array( $this, 'get_user_permissions_check' ),
+		) );
+
 
 
     }
@@ -84,6 +91,32 @@ class Username {
             return new WP_Error( 'invalid_username_access', __( 'You are not allowed to get user data', 'awesome-support-api' ), array( 'status' => 400 ) );
 		}
 		
+		return array(
+			'id' => $user->ID
+		);
+
+	}
+
+
+	/**
+	 * Check user credentials
+	 */
+	public function check_credentials( $request ) {
+
+		// Check if username and password are set
+		if ( ! isset( $request[ 'username' ] ) || ! isset( $request[ 'password' ] ) ) {
+			return new WP_Error( 'invalid_user_credentials', __( 'Invalid username or password.', 'awesome-support-api' ), array( 'status' => 400 ) );
+		}
+
+		// Get user by username
+		$user = get_user_by( 'login', $request[ 'username' ] );
+
+		// Check the password for current logged in user
+		if ( ! $user || ! wp_check_password( $request[ 'password' ], $user->data->user_pass, get_current_user_id() ) ) {
+			return new WP_Error( 'invalid_user_credentials', __( 'Invalid username or password.', 'awesome-support-api' ), array( 'status' => 400 ) );
+		}
+
+		// Return user ID on success
 		return array(
 			'id' => $user->ID
 		);
