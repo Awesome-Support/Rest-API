@@ -30,29 +30,17 @@ class UserData {
 	 */
 	public function register_routes() {
 
-		register_rest_route( $this->namespace, '/' . $this->rest_base . '/username/(?P<username>[0-9a-zA-Z_-]+)', array(
-			'args' => array(
-				'username' => array(
-					'description' => __( 'The username of requested user.', 'awesome-support-api' ),
-					'type'        => 'string',
-					'required'    => true,
-				),
-			),
-			array(
-				'methods'             => WP_REST_Server::READABLE,
-				'callback'            => array( $this, 'get_user' ),
-				'permission_callback' => array( $this, 'get_user_permissions_check' ),
-            )
-		) );
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/username', array(
+			'methods'             => WP_REST_Server::CREATABLE,
+			'callback'            => array( $this, 'get_user' ),
+			'permission_callback' => array( $this, 'get_user_permissions_check' ),
+        ) );
 
-		
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/check', array(
 			'methods'             => WP_REST_Server::CREATABLE,
 			'callback'            => array( $this, 'check_credentials' ),
 			'permission_callback' => array( $this, 'get_user_permissions_check' ),
 		) );
-
-
 
     }
     
@@ -79,7 +67,12 @@ class UserData {
 	*/
 	public function get_user( $request ) {
 
-		$user = get_user_by( 'login',  base64_decode( $request[ 'username' ] ) );
+		// Check if username is set
+		if ( ! isset( $request[ 'username' ] ) ) {
+			return new WP_Error( 'invalid_username', __( 'Invalid username.', 'awesome-support-api' ), array( 'status' => 400 ) );
+		}
+
+		$user = get_user_by( 'login',  $request[ 'username' ] );
 		
 		// Check result
         if ( ! $user ) {
