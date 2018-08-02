@@ -255,6 +255,9 @@ class WPAS_API {
 		$controller = new WPAS_API\API\TicketStatus();
 		$controller->register_routes();
 
+		$controller = new WPAS_API\API\CustomFields();
+		$controller->register_routes();
+
 		$controller = new WPAS_API\API\Passwords();
 		$controller->register_routes();
 
