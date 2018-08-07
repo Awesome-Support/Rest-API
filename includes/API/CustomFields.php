@@ -7,6 +7,7 @@ use WP_REST_Server;
 use WP_REST_Request;
 use WP_REST_Response;
 use WP_Error;
+use WPAS_Custom_Field;
 
 
 /**
@@ -28,6 +29,14 @@ class CustomFields {
 	 */
 	public function register_routes() {
 
+
+        register_rest_route( $this->namespace, '/custom-fields', array(
+            'methods'             => WP_REST_Server::READABLE,
+            'callback'            => array( $this, 'get_custom_fields' ),
+            'permission_callback' => array( $this, 'get_custom_fields_permissions_check' )
+        ) );
+
+
 		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<ticket_id>[\d]+)/custom-fields', array(
             'args' => array(
 				'ticket_id' => array(
@@ -39,6 +48,23 @@ class CustomFields {
             array(
                 'methods'             => WP_REST_Server::READABLE,
                 'callback'            => array( $this, 'get_custom_fields' ),
+                'permission_callback' => array( $this, 'get_custom_fields_permissions_check' ),
+            ) 
+            
+        ) );
+
+
+		register_rest_route( $this->namespace, '/' . $this->rest_base . '/(?P<ticket_id>[\d]+)/custom-fields', array(
+            'args' => array(
+				'ticket_id' => array(
+					'description' => __( 'Unique ticket identifier.' ),
+					'type'        => 'integer',
+					'required'    => true,
+				),
+			),
+            array(
+                'methods'             => WP_REST_Server::CREATABLE,
+                'callback'            => array( $this, 'update_custom_fields' ),
                 'permission_callback' => array( $this, 'get_custom_fields_permissions_check' ),
             ) 
             
@@ -56,16 +82,15 @@ class CustomFields {
         return current_user_can( 'create_ticket' );
     }
 
-	/*
-	* Retrieves the custom fields
-	*
-	* @param WP_REST_Request $request Full details about the request.
-	* @return array on success, or WP_Error object on failure.
-	*/
-	public function get_custom_fields( $request ) {
+    /**
+     * Get custom fields
+     *
+     * @return array
+     */
+    protected function get_fields() {
 
         $fields = array();
-        
+
         // custom fields to skip
         // these fields are used in the admin part only
         $skip = array(
@@ -94,12 +119,44 @@ class CustomFields {
                 continue;
             }
 
-            $field_name  = ! empty( $data[ 'args' ][ 'label' ] ) ? $data[ 'args' ][ 'label' ] : $data[ 'args' ][ 'title' ];
-            $field_value = function_exists( $data[ 'args' ][ 'column_callback' ] ) ? $this->column_callback( $data[ 'args' ][ 'column_callback' ], $data[ 'name' ], $request['ticket_id'] ) : wpas_get_cf_value( $data[ 'name' ], $request['ticket_id'], false );
+            $fields[ $field ] = $data;
+
+        }
+
+        return $fields;
+
+    }
+
+
+	/*
+	* Retrieves the custom fields
+	*
+	* @param WP_REST_Request $request Full details about the request.
+	* @return array on success, or WP_Error object on failure.
+	*/
+	public function get_custom_fields( $request ) {
+
+        // Check for ticket id
+        if ( isset( $request['ticket_id'] ) ) {
+
+            if ( ! $this->is_user_ticket(  $request[ 'ticket_id' ] ) ) {
+                return new WP_Error( 'rest_cannot_create', __( 'Sorry, you are not allowed to get custom fields of this ticket.', 'awesome-support-api' ), array( 'status' => rest_authorization_required_code() ) );
+            }    
+
+        } else {
+
+            $request['ticket_id'] = 0;
+
+        }
+
+        foreach ( $this->get_fields() as $field => $data ) {
+
+            $custom_field = new WPAS_Custom_Field( $field, $data );
 
             $fields[ $field ] = array(
-                'name'  => $field_name,
-                'value' => $field_value
+                'name'   => $custom_field->get_field_title(),
+                'value'  => $custom_field->get_field_value( '', $request['ticket_id'] ),
+                'markup' => $custom_field->get_output()
             );
 
         }
@@ -107,31 +164,59 @@ class CustomFields {
         return $fields;
 
     }
+
+
+
+    public function update_custom_fields( $request ) {
+
+        if ( ! isset( $request[ 'custom_fields' ] ) || empty( $request[ 'custom_fields' ] ) ) {
+            return new WP_Error( 'invalid_post_parameter', __( 'Custom fields parameter cannot be empty.', 'awesome-support-api' ), array( 'status' => rest_authorization_required_code() ) );
+        }
+
+        if ( ! $this->is_user_ticket( $request[ 'ticket_id' ] ) ) {
+            return new WP_Error( 'rest_cannot_create', __( 'Sorry, you are not allowed to update custom fields for this ticket.', 'awesome-support-api' ), array( 'status' => rest_authorization_required_code() ) );
+        } 
+
+        foreach ( $this->get_fields() as $field => $data ) {
+
+            if ( ! isset( $request[ $field ] ) ) {
+                continue;
+            }
     
+            $custom_field = new WPAS_Custom_Field( $field, $data );
+
+            $value = $request[ $field ];
+
+			if ( isset( $data['sanitize_cb'] ) ) {
+				$value = call_user_func( $data['sanitize_cb'], $request[ $field ] );
+			}
+            
+
+            $custom_field->update_value( $value, $request[ 'ticket_id' ] );
+
+        
+        }
+
+    }
+
 
     /**
-     * Run column callback
+     * Check if ticket author is current logged in user
      *
-     * @param callable $callback
-     * @param string $name
      * @param int $ticket_id
-     * @return void
+     * @return boolean
      */
-    private function column_callback( $callback, $name, $ticket_id ) {
+    private function is_user_ticket( $ticket_id ) {
 
-        if ( is_callable( $callback) ) {
+        $post = get_post( intval( $ticket_id ) );
 
-            ob_start();
-            call_user_func( $callback, $name, $ticket_id ); 
-            $contents = ob_get_clean();
-
-            return $contents;
-
+        if ( $post ) {
+            return ( $post->post_author == get_current_user_id() ) ? true : false;
         }
 
         return false;
 
     }
-
+    
     
 }
