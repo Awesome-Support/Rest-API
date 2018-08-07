@@ -166,7 +166,12 @@ class CustomFields {
     }
 
 
-
+    /**
+     * Update custom fields
+     *
+    * @param WP_REST_Request $request Full details about the request.
+    * @return array on success, or WP_Error object on failure.
+    */
     public function update_custom_fields( $request ) {
 
         if ( ! isset( $request[ 'custom_fields' ] ) || empty( $request[ 'custom_fields' ] ) ) {
@@ -179,22 +184,13 @@ class CustomFields {
 
         foreach ( $this->get_fields() as $field => $data ) {
 
-            if ( ! isset( $request[ $field ] ) ) {
-                continue;
+            if ( array_key_exists( 'wpas_' . $field, $request[ 'custom_fields' ] ) ) {
+
+                $custom_field = new WPAS_Custom_Field( $field, $data );
+                $custom_field->update_value( $request[ 'custom_fields' ][ 'wpas_' . $field ], $request[ 'ticket_id' ] );
+                
             }
     
-            $custom_field = new WPAS_Custom_Field( $field, $data );
-
-            $value = $request[ $field ];
-
-			if ( isset( $data['sanitize_cb'] ) ) {
-				$value = call_user_func( $data['sanitize_cb'], $request[ $field ] );
-			}
-            
-
-            $custom_field->update_value( $value, $request[ 'ticket_id' ] );
-
-        
         }
 
     }
