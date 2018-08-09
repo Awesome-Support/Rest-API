@@ -267,6 +267,7 @@ class Settings extends WP_REST_Settings_Controller {
 				case 'select' :
 				case 'radio' :
 				case 'text' :
+				case 'textarea' :
 				case 'editor' :
 				case 'color' :
 					$type = 'string';
