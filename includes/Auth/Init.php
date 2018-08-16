@@ -301,7 +301,7 @@ class Init {
 
 		?>
 		<div class="wpas-api hide-if-no-js" id="wpas-api-section">
-			<h2 id="wpas-api"><?php esc_html_e( 'API Passwords' ); ?></h2>
+			<h2 id="wpas-api"><?php esc_html_e( 'Awesome Support: API Passwords' ); ?></h2>
 			<p><?php esc_html_e( 'API passwords allow authentication via the REST API without providing your actual password. API passwords can be easily revoked. They cannot be used for traditional logins to your website.', 'awesome-support-api' ); ?></p>
 			<div class="create-wpas-api-password">
 				<input type="text" size="30" name="new_wp_api_password_name" placeholder="<?php esc_attr_e( 'New API Password Name', 'awesome-support-api' ); ?>" class="input" />
